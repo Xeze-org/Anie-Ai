@@ -27,7 +27,9 @@
 
 > **Your data stays with you.** All chat history is stored **locally in your browser** using IndexedDB. No conversation data is sent to any server for storage - only for generating responses. We don't track, store, or analyze your conversations.
 
+
 ---
+
 
 ## ✨ Features
 
@@ -140,61 +142,6 @@ erDiagram
 
 ---
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) 18+
-- [Go](https://golang.org/) 1.23+
-- [Google Cloud CLI](https://cloud.google.com/sdk)
-- [Gemini API Key](https://makersuite.google.com/app/apikey)
-
-### 1️⃣ Clone the Repository
-
-```bash
-git clone https://github.com/AE-OSS/ai-grade-calculator.git
-cd ai-grade-calculator
-```
-
-### 2️⃣ Frontend Setup
-
-```bash
-cd frontend
-npm install
-
-npm run dev
-```
-
-### 3️⃣ Backend Setup
-
-```bash
-cd backend
-go mod tidy
-
-# Set your Gemini API key
-export GEMINI_API_KEY=your_key_here
-
-# Run locally (optional)
-go run .
-```
-
-### 4️⃣ Deploy
-
-```bash
-# Deploy backend to Google Cloud
-cd backend
-./deploy.ps1  # Windows
-# OR
-./deploy.sh   # Linux/Mac
-
-# Deploy frontend to Firebase
-cd ../frontend
-npm run build
-firebase deploy --only hosting
-```
-
----
-
 ## 🔐 Security
 
 | Component | Security Measure |
@@ -204,12 +151,6 @@ firebase deploy --only hosting
 | **Backend** | Secrets injected at runtime via `--set-secrets` |
 | **HTTPS** | Enforced on all endpoints |
 | **CORS** | Configured for allowed origins |
-
-### ⚠️ Important
-
-- **Never commit `.env` files** - They're in `.gitignore`
-- **Use `.env.example`** as a template
-- **API keys** should only be in GCP Secret Manager
 
 ---
 
@@ -265,18 +206,6 @@ The system contains complete curriculum data for:
 
 ---
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
----
-
 ## 📝 License
 
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
@@ -287,7 +216,7 @@ This means you can freely use, modify, and distribute this software, but any der
 
 ## 🙏 Acknowledgments
 
-- [BITS Pilani](https://www.bits-pilani.ac.in/) for the curriculum data
+- [BITS Pilani](https://online-programs.bits-pilani.ac.in/) for the curriculum data
 - [Google Gemini](https://ai.google.dev/) for the AI capabilities
 - [Firebase](https://firebase.google.com/) for hosting
 
