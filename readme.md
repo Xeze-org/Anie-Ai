@@ -152,8 +152,8 @@ erDiagram
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/bits-cs.git
-cd bits-cs
+git clone https://github.com/AE-OSS/ai-grade-calculator.git
+cd ai-grade-calculator
 ```
 
 ### 2️⃣ Frontend Setup
@@ -161,10 +161,6 @@ cd bits-cs
 ```bash
 cd frontend
 npm install
-
-# Create environment file
-cp .env.example .env
-# Edit .env with your API URL
 
 npm run dev
 ```
