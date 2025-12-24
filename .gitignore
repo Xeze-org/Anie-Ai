@@ -1,0 +1,27 @@
+# Dependencies
+node_modules
+frontend/node_modules
+functions/node_modules
+
+# Build output
+frontend/dist
+
+# Firebase
+.firebase
+
+# Editor
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Debug
+.firebase-debug.log
+

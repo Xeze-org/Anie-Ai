@@ -1,0 +1,10 @@
+# Ignore files for Cloud Function deployment
+.git
+.gitignore
+node_modules/
+*.md
+*.ps1
+*.sh
+main.go
+handlers.go
+gemini.go
