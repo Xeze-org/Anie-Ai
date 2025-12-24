@@ -1,0 +1,89 @@
+name: Weekly Docker Security Scan
+
+on:
+  schedule:
+    # Run every Sunday at midnight UTC
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  build-and-scan:
+    name: Build & Scan Images
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Build Backend
+      - name: Build Backend Image
+        run: docker build -t backend:scan ./backend
+
+      # Build Frontend
+      - name: Build Frontend Image
+        run: docker build -t frontend:scan ./frontend
+
+      # Scan Backend with Trivy
+      - name: Scan Backend
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'backend:scan'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+          output: 'backend-scan.txt'
+
+      # Scan Frontend with Trivy
+      - name: Scan Frontend
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'frontend:scan'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+          output: 'frontend-scan.txt'
+
+      # Count vulnerabilities
+      - name: Generate Badge Data
+        id: badge
+        run: |
+          BACKEND_CRITICAL=$(grep -c "CRITICAL" backend-scan.txt || echo "0")
+          BACKEND_HIGH=$(grep -c "HIGH" backend-scan.txt || echo "0")
+          FRONTEND_CRITICAL=$(grep -c "CRITICAL" frontend-scan.txt || echo "0")
+          FRONTEND_HIGH=$(grep -c "HIGH" frontend-scan.txt || echo "0")
+          
+          TOTAL=$((BACKEND_CRITICAL + BACKEND_HIGH + FRONTEND_CRITICAL + FRONTEND_HIGH))
+          
+          if [ "$TOTAL" -eq 0 ]; then
+            echo "status=passing" >> $GITHUB_OUTPUT
+            echo "color=brightgreen" >> $GITHUB_OUTPUT
+          elif [ "$TOTAL" -lt 5 ]; then
+            echo "status=warning" >> $GITHUB_OUTPUT
+            echo "color=yellow" >> $GITHUB_OUTPUT
+          else
+            echo "status=critical" >> $GITHUB_OUTPUT
+            echo "color=red" >> $GITHUB_OUTPUT
+          fi
+          echo "count=$TOTAL" >> $GITHUB_OUTPUT
+
+      # Create/Update badge
+      - name: Create Badge
+        uses: schneegans/dynamic-badges-action@v1.7.0
+        with:
+          auth: ${{ secrets.GIST_TOKEN }}
+          gistID: ${{ vars.BADGE_GIST_ID }}
+          filename: security-badge.json
+          label: Security
+          message: ${{ steps.badge.outputs.count }} issues
+          color: ${{ steps.badge.outputs.color }}
+
+      # Upload scan results
+      - name: Upload Scan Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-scan-results
+          path: |
+            backend-scan.txt
+            frontend-scan.txt

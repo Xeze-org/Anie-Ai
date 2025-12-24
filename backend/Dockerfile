@@ -1,5 +1,5 @@
 # Build stage
-FROM golang:1.23-alpine AS builder
+FROM golang:1.24-alpine AS builder
 
 # Install git and ca-certificates (needed for fetching dependencies)
 RUN apk add --no-cache git ca-certificates
@@ -23,7 +23,7 @@ COPY cmd/main.go ./cmd/
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o server ./cmd/main.go
 
 # Runtime stage
-FROM alpine:3.19
+FROM alpine:3.21
 
 # Install ca-certificates for HTTPS requests to Gemini API
 RUN apk --no-cache add ca-certificates

@@ -5,11 +5,12 @@
 ### Your AI-Powered Academic Advisor for BITS Pilani Computer Science
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Go](https://img.shields.io/badge/Go-1.23-00ADD8?logo=go&logoColor=white)](https://golang.org/)
+[![Go](https://img.shields.io/badge/Go-1.24-00ADD8?logo=go&logoColor=white)](https://golang.org/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Functions-4285F4?logo=google-cloud&logoColor=white)](https://cloud.google.com/)
 [![Gemini](https://img.shields.io/badge/Gemini-Flash-8E75B2?logo=google&logoColor=white)](https://ai.google.dev/)
+[![Security Scan](https://github.com/AE-OSS/ai-grade-calculator/actions/workflows/weekly-scan.yml/badge.svg)](https://github.com/AE-OSS/ai-grade-calculator/actions/workflows/weekly-scan.yml)
 
 <br/>
 

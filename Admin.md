@@ -1,3 +1,12 @@
+## docker images security test
+```bash
+docker scout cves ghcr.io/ae-oss/ai-grade-calculator/backend:v1.0.0
+```
+
+```bash
+docker scout cves ghcr.io/ae-oss/ai-grade-calculator/frontend:v1.0.0
+```
+
 ## Deploy Firebase Hosting
 ```bash
 firebase deploy --only hosting --project bits-cs-ef66a
@@ -39,3 +48,5 @@ cd backend
 ```
 
 **Function URL:** `https://us-central1-astralelite.cloudfunctions.net/Chat`
+
+
