@@ -1,0 +1,9 @@
+node_modules
+dist
+*.log
+.git
+*.log
+.git
+.gitignore
+README.md
+.firebase

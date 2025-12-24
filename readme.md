@@ -23,7 +23,55 @@
 
 ---
 
-## 🔒 Privacy First
+## 🐳 One-Click Docker Test
+
+Run locally with Docker in seconds:
+
+<details>
+<summary><b>🐧 Bash / Linux / Mac</b></summary>
+
+```bash
+# Download files
+mkdir -p backend
+wget -O docker-compose.yml https://raw.githubusercontent.com/AE-OSS/bits-cs/main/docker-compose.yml
+wget -O backend/.env https://raw.githubusercontent.com/AE-OSS/bits-cs/main/backend/.env
+
+# Add your API key
+nano backend/.env
+
+# Run
+docker compose up -d
+
+# Access: http://localhost:3000
+```
+
+</details>
+
+<details>
+<summary><b>🪟 PowerShell / Windows</b></summary>
+
+```powershell
+# Download files
+New-Item -ItemType Directory -Force -Path "backend"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AE-OSS/bits-cs/main/docker-compose.yml" -OutFile "docker-compose.yml"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/AE-OSS/bits-cs/main/backend/.env" -OutFile "backend/.env"
+
+# Add your API key to backend/.env
+notepad backend/.env
+
+# Run
+docker compose up -d
+
+# Access: http://localhost:3000
+```
+
+</details>
+
+> 📖 See [tester.md](./tester.md) for full Docker documentation
+
+---
+
+## �🔒 Privacy First
 
 > **Your data stays with you.** All chat history is stored **locally in your browser** using IndexedDB. No conversation data is sent to any server for storage - only for generating responses. We don't track, store, or analyze your conversations.
 

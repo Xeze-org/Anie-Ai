@@ -46,7 +46,7 @@ func NewGeminiService(ctx context.Context, apiKey string) (*GeminiService, error
 		return nil, fmt.Errorf("failed to create client: %w", err)
 	}
 
-	// Gemini 2.0 Flash - best for long context and fast responses
+	// Gemini 2.0 Flash - using correct model path format
 	model := client.GenerativeModel("gemini-2.0-flash")
 
 	// Configure for long instructions handling
