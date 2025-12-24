@@ -23,7 +23,7 @@
 
 ---
 
-## 🐳 One-Click Docker Test
+## 🐳 One-Click Docker Test for user 
 
 Run locally with Docker in seconds:
 
@@ -71,7 +71,51 @@ docker compose up -d
 
 ---
 
-## �🔒 Privacy First
+## 🛠️ One-Click Docker Test for Developers
+
+Clone and build from source:
+
+<details>
+<summary><b>🐧 Bash / Linux / Mac</b></summary>
+
+```bash
+# Clone repo
+git clone https://github.com/AE-OSS/ai-grade-calculator.git
+cd ai-grade-calculator
+
+# Add your API key
+nano backend/.env
+
+# Build & Run (full stack)
+docker compose -f developer-test.yml up -d --build
+
+# Access: http://localhost:3000
+```
+
+</details>
+
+<details>
+<summary><b>🪟 PowerShell / Windows</b></summary>
+
+```powershell
+# Clone repo
+git clone https://github.com/AE-OSS/ai-grade-calculator.git
+cd ai-grade-calculator
+
+# Add your API key
+notepad backend/.env
+
+# Build & Run (full stack)
+docker compose -f developer-test.yml up -d --build
+
+# Access: http://localhost:3000
+```
+
+</details>
+
+---
+
+## 🔒 Privacy First
 
 > **Your data stays with you.** All chat history is stored **locally in your browser** using IndexedDB. No conversation data is sent to any server for storage - only for generating responses. We don't track, store, or analyze your conversations.
 
