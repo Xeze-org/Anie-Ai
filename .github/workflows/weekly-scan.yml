@@ -25,65 +25,69 @@ jobs:
       - name: Build Frontend Image
         run: docker build -t frontend:scan ./frontend
 
-      # Scan Backend with Trivy
+      # Scan Backend with Trivy (save to file)
       - name: Scan Backend
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'backend:scan'
-          format: 'table'
-          exit-code: '0'
-          severity: 'CRITICAL,HIGH'
-          output: 'backend-scan.txt'
+          format: 'json'
+          output: 'backend-results.json'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
-      # Scan Frontend with Trivy
+      # Scan Frontend with Trivy (save to file)
       - name: Scan Frontend
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: 'frontend:scan'
-          format: 'table'
-          exit-code: '0'
-          severity: 'CRITICAL,HIGH'
-          output: 'frontend-scan.txt'
+          format: 'json'
+          output: 'frontend-results.json'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
-      # Count vulnerabilities
+      # Count vulnerabilities and set badge
       - name: Generate Badge Data
         id: badge
         run: |
-          BACKEND_CRITICAL=$(grep -c "CRITICAL" backend-scan.txt || echo "0")
-          BACKEND_HIGH=$(grep -c "HIGH" backend-scan.txt || echo "0")
-          FRONTEND_CRITICAL=$(grep -c "CRITICAL" frontend-scan.txt || echo "0")
-          FRONTEND_HIGH=$(grep -c "HIGH" frontend-scan.txt || echo "0")
+          # Parse vulnerability counts from JSON
+          BACKEND_TOTAL=$(jq '[.Results[]?.Vulnerabilities // [] | length] | add // 0' backend-results.json)
+          FRONTEND_TOTAL=$(jq '[.Results[]?.Vulnerabilities // [] | length] | add // 0' frontend-results.json)
+          TOTAL=$((BACKEND_TOTAL + FRONTEND_TOTAL))
           
-          TOTAL=$((BACKEND_CRITICAL + BACKEND_HIGH + FRONTEND_CRITICAL + FRONTEND_HIGH))
+          # Count by severity
+          CRITICAL=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity=="CRITICAL")] | length' backend-results.json frontend-results.json | paste -sd+ | bc)
+          HIGH=$(jq '[.Results[]?.Vulnerabilities[]? | select(.Severity=="HIGH")] | length' backend-results.json frontend-results.json | paste -sd+ | bc)
           
-          if [ "$TOTAL" -eq 0 ]; then
-            echo "status=passing" >> $GITHUB_OUTPUT
-            echo "color=brightgreen" >> $GITHUB_OUTPUT
-          elif [ "$TOTAL" -lt 5 ]; then
-            echo "status=warning" >> $GITHUB_OUTPUT
+          echo "Total vulnerabilities: $TOTAL (Critical: $CRITICAL, High: $HIGH)"
+          
+          if [ "$CRITICAL" -gt 0 ]; then
+            echo "message=${CRITICAL} critical" >> $GITHUB_OUTPUT
+            echo "color=red" >> $GITHUB_OUTPUT
+          elif [ "$HIGH" -gt 0 ]; then
+            echo "message=${HIGH} high" >> $GITHUB_OUTPUT
+            echo "color=orange" >> $GITHUB_OUTPUT
+          elif [ "$TOTAL" -gt 0 ]; then
+            echo "message=${TOTAL} issues" >> $GITHUB_OUTPUT
             echo "color=yellow" >> $GITHUB_OUTPUT
           else
-            echo "status=critical" >> $GITHUB_OUTPUT
-            echo "color=red" >> $GITHUB_OUTPUT
+            echo "message=passing" >> $GITHUB_OUTPUT
+            echo "color=brightgreen" >> $GITHUB_OUTPUT
           fi
-          echo "count=$TOTAL" >> $GITHUB_OUTPUT
 
-      # Create/Update badge
-      - name: Create Badge
+      # Update dynamic badge
+      - name: Update Badge
         uses: schneegans/dynamic-badges-action@v1.7.0
         with:
           auth: ${{ secrets.GIST_TOKEN }}
           gistID: ${{ vars.BADGE_GIST_ID }}
           filename: security-badge.json
-          label: Security
-          message: ${{ steps.badge.outputs.count }} issues
+          label: 🔒 Security
+          message: ${{ steps.badge.outputs.message }}
           color: ${{ steps.badge.outputs.color }}
 
-      # Upload scan results
+      # Upload scan results as artifact
       - name: Upload Scan Results
         uses: actions/upload-artifact@v4
         with:
           name: security-scan-results
           path: |
-            backend-scan.txt
-            frontend-scan.txt
+            backend-results.json
+            frontend-results.json
