@@ -8,9 +8,9 @@
 [![Go](https://img.shields.io/badge/Go-1.24-00ADD8?logo=go&logoColor=white)](https://golang.org/)
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Functions-4285F4?logo=google-cloud&logoColor=white)](https://cloud.google.com/)
+[![Docker](https://img.shields.io/badge/Docker-Container-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![Gemini](https://img.shields.io/badge/Gemini-Flash-8E75B2?logo=google&logoColor=white)](https://ai.google.dev/)
-[![Security Scan](https://github.com/AE-OSS/ai-grade-calculator/actions/workflows/weekly-scan.yml/badge.svg)](https://github.com/AE-OSS/ai-grade-calculator/actions/workflows/weekly-scan.yml)
+[![Security Scan](https://github.com/AE-OSS/ai-grade-calculator/actions/workflows/security.yml/badge.svg)](https://github.com/AE-OSS/ai-grade-calculator/actions/workflows/security.yml)
 
 <br/>
 
@@ -177,14 +177,14 @@ flowchart TB
         UI <--> IDB
     end
     
-    subgraph Firebase["☁️ Firebase Hosting"]
+    subgraph Hosting["☁️ Firebase Hosting"]
         CDN["🌐 Global CDN"]
     end
     
-    subgraph GCP["☁️ Google Cloud Platform"]
-        CF["⚡ Cloud Function<br/>Go 1.23"]
-        SM["🔐 Secret Manager<br/>API Keys"]
-        CF --> SM
+    subgraph Docker["🐳 Docker Containers"]
+        BE["⚡ Go Backend<br/>Alpine Container"]
+        ENV["🔐 Environment<br/>API Keys"]
+        BE --> ENV
     end
     
     subgraph AI["🤖 AI Service"]
@@ -194,10 +194,10 @@ flowchart TB
     end
     
     CDN --> UI
-    UI -->|"HTTPS POST"| CF
-    CF -->|"Generate"| Gemini
-    Gemini -->|"Response"| CF
-    CF -->|"JSON"| UI
+    UI -->|"HTTPS POST"| BE
+    BE -->|"Generate"| Gemini
+    Gemini -->|"Response"| BE
+    BE -->|"JSON"| UI
 ```
 
 ### Data Flow
@@ -207,16 +207,16 @@ sequenceDiagram
     participant U as 👤 User
     participant F as ⚛️ Frontend
     participant DB as 💾 IndexedDB
-    participant C as ⚡ Cloud Function
+    participant B as 🐳 Backend Container
     participant G as ✨ Gemini AI
     
     U->>F: Send Message
     F->>DB: Load Chat History
     DB-->>F: Previous Messages
-    F->>C: POST /bits-chat<br/>{history: [...]}
-    C->>G: Generate with<br/>System Prompt
-    G-->>C: AI Response
-    C-->>F: {response: "..."}
+    F->>B: POST /api/chat<br/>{history: [...]}
+    B->>G: Generate with<br/>System Prompt
+    G-->>B: AI Response
+    B-->>F: {response: "..."}
     F->>DB: Save Message
     F-->>U: Display Response
 ```
@@ -239,11 +239,13 @@ erDiagram
 
 | Component | Security Measure |
 |-----------|-----------------|
-| **API Key** | Stored in GCP Secret Manager, never in code |
-| **Frontend** | No secrets, only public API URL |
-| **Backend** | Secrets injected at runtime via `--set-secrets` |
+| **API Key** | Environment variables, never in code |
+| **Backend** | Non-root container, read-only filesystem |
+| **Frontend** | No secrets, static files only |
 | **HTTPS** | Enforced on all endpoints |
-| **CORS** | Configured for allowed origins |
+| **Scanning** | CodeQL, TruffleHog, Dependabot |
+
+> 📖 See [SECURITY.md](./SECURITY.md) for full security policy
 
 ---
 

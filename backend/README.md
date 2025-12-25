@@ -1,21 +1,30 @@
-# BITS-CS Backend (Go)
+# BITS-CS Backend
 
-Go backend service using **Gemini 2.0 Flash** - optimized for long context instructions (up to 1M tokens).
+Go backend service using **Gemini Flash** - optimized for long context instructions (up to 1M tokens).
 
-## Why Gemini Flash for Long Instructions?
+## 🐳 Docker Deployment
 
-- **1M token context window** - handles very long system instructions
-- **Fast response times** - optimized for speed
-- **Cost effective** - lower cost than Pro models
-- **Streaming support** - for real-time responses
+### Using Pre-built Image
 
-## Setup
+```bash
+docker pull ghcr.io/ae-oss/ai-grade-calculator/backend:v1.1.0
+docker run -p 8080:8080 -e GEMINI_API_KEY=your_key -e GEMINI_MODEL=gemini-2.5-flash ghcr.io/ae-oss/ai-grade-calculator/backend:v1.1.0
+```
+
+### Building from Source
+
+```bash
+docker build -t bits-backend .
+docker run -p 8080:8080 -e GEMINI_API_KEY=your_key -e GEMINI_MODEL=gemini-2.5-flash bits-backend
+```
+
+## 🔧 Local Development
 
 ### Prerequisites
-- Go 1.21+
+- Go 1.24+
 - Gemini API Key
 
-### Install Dependencies
+### Setup
 
 ```bash
 cd backend
@@ -24,71 +33,66 @@ go mod tidy
 
 ### Environment Variables
 
-```bash
-export GEMINI_API_KEY=your_api_key_here
-export PORT=8080  # optional, defaults to 8080
-```
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GEMINI_API_KEY` | Yes | Your Gemini API key |
+| `GEMINI_MODEL` | Yes | Model name (e.g., `gemini-2.5-flash`) |
+| `PORT` | No | Server port (default: 8080) |
 
 ### Run
 
 ```bash
+export GEMINI_API_KEY=your_key
+export GEMINI_MODEL=gemini-2.5-flash
 go run .
 ```
 
-Or build and run:
+## 📡 API Endpoints
 
-```bash
-go build -o server .
-./server
-```
-
-## API Endpoints
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/chat` | Chat with conversation history |
+| POST | `/api/chat/stream` | Streaming chat response |
+| GET | `/api/health` | Health check |
 
 ### POST /api/chat
-Simple chat with optional system instructions.
 
 ```json
 {
-  "message": "Hello, how are you?",
-  "instructions": "You are a helpful assistant for BITS Pilani students..."
+  "history": [
+    {"role": "user", "content": "Calculate my grade for Web Programming"}
+  ]
 }
 ```
 
-### POST /api/chat/stream
-Streaming chat for real-time responses.
-
+**Response:**
 ```json
 {
-  "message": "Explain quantum computing",
-  "instructions": "You are a physics professor..."
+  "response": "## 📊 Grade Calculation: Web Programming..."
 }
 ```
 
-### GET /api/health
-Health check endpoint.
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 backend/
-├── main.go        # Entry point and server setup
-├── gemini.go      # Gemini API service
-├── handlers.go    # HTTP handlers
-├── go.mod         # Go module definition
-└── README.md      # This file
+├── main.go              # Entry point
+├── internal/
+│   ├── gemini.go        # Gemini API service
+│   ├── handlers.go      # HTTP handlers
+│   └── instructions.go  # System prompt
+├── Dockerfile           # Container build
+├── .env                 # Environment (git-ignored)
+└── go.mod               # Dependencies
 ```
 
-## Configuration
+## 🔒 Security
 
-The Gemini model is configured for long context:
+- Non-root container user (`appuser:1000`)
+- Read-only root filesystem
+- Minimal Alpine base image
+- No Cloud Functions dependencies
 
-```go
-model.SetMaxOutputTokens(8192)
-model.SetTemperature(0.7)
-model.SetTopP(0.95)
-model.SetTopK(40)
-```
+## 📝 License
 
-## CORS
-
-CORS is enabled for all origins. Modify `enableCORS` in `main.go` for production.
+GPL-3.0 - See [LICENSE](../LICENSE)

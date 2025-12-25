@@ -1,67 +1,92 @@
-# BITS BSC CS Grade Calculator AI
+# BITS-CS Frontend
 
-A beautiful, modern AI chat interface built with React, TypeScript, and Vite. Features LaTeX rendering for mathematical expressions and a stunning dark/light theme.
+Modern React chat interface with AI-powered grade calculations and academic advising.
 
+## 🐳 Docker Deployment
 
+### Using Pre-built Image
 
-## Features
+```bash
+docker pull ghcr.io/ae-oss/ai-grade-calculator/frontend:v1.1.0
+docker run -p 3000:80 ghcr.io/ae-oss/ai-grade-calculator/frontend:v1.1.0
+```
 
-- 🎨 **Beautiful UI** - Modern dark theme with ambient lighting effects
-- 🌓 **Theme Toggle** - Switch between dark and light modes
-- 📐 **LaTeX Support** - Render mathematical equations using KaTeX
-- 📝 **Markdown Support** - Full markdown rendering in responses
-- ⚡ **Fast & Responsive** - Built with Vite for optimal performance
-- 💬 **Conversation History** - Messages persist during session
+### Building from Source
 
-## Setup
+```bash
+docker build -t bits-frontend .
+docker run -p 3000:80 bits-frontend
+```
 
-### 1. Install Dependencies
+## 🔧 Local Development
+
+### Setup
 
 ```bash
 npm install
 ```
 
-### 2. Configure Environment
+### Environment
 
-Edit the `.env` file and add your API key:
+Edit `.env`:
 
 ```env
-VITE_API_URL=https://krfmatqs5ww3zqkchcwqww4u.agents.do-ai.run
+# For development (connect to local backend)
+VITE_API_URL=http://localhost:8080/api/chat
+
+# For production (uses nginx reverse proxy)
+# VITE_API_URL=/api/chat
 ```
 
-### 3. Run Development Server
+### Run
 
 ```bash
 npm run dev
 ```
 
-The app will be available at `http://localhost:5173`
+Access: http://localhost:5173
 
-## Build for Production
+## ✨ Features
 
-```bash
-npm run build
+| Feature | Description |
+|---------|-------------|
+| 🎨 Beautiful UI | Dark theme with ambient lighting effects |
+| 📐 LaTeX Support | KaTeX rendering for math equations |
+| 📝 Markdown | Full markdown in chat responses |
+| 💾 Local Storage | Chat history in IndexedDB (browser) |
+| ⚙️ Custom API | Use your own Gemini API key |
+| 🔄 Model Selection | Choose from multiple Gemini models |
+
+## 📡 Custom API Mode
+
+Users can bring their own Gemini API key:
+
+1. Go to **Settings** (gear icon)
+2. Toggle "Use my own API key"
+3. Enter API key and select model
+4. Save → Chat directly with Gemini
+
+## 📁 Project Structure
+
+```
+frontend/
+├── src/
+│   ├── pages/           # Chat, Home, Settings
+│   ├── components/      # Reusable components
+│   ├── lib/             # Utilities (db, settings, gemini)
+│   └── App.tsx          # Routes
+├── Dockerfile           # Container build
+├── nginx.conf           # Production server
+└── .env                 # Environment
 ```
 
-The built files will be in the `dist` folder.
+## 🔒 Security
 
-## LaTeX Examples
+- No secrets in client bundle
+- API key stored locally only (localStorage)
+- Chat history never leaves browser
+- HTTPS enforced in production
 
-You can use LaTeX in your messages:
+## 📝 License
 
-- **Inline math**: `$E = mc^2$`
-- **Block math**: `$$\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$`
-
-## Tech Stack
-
-- React 18
-- TypeScript
-- Vite
-- react-markdown
-- KaTeX (via rehype-katex & remark-math)
-- Lucide React Icons
-
-## License
-
-MIT
-
+GPL-3.0 - See [LICENSE](../LICENSE)
