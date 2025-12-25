@@ -1,6 +1,8 @@
 services:
   backend:
-    image: ghcr.io/ae-oss/ai-grade-calculator/backend:v1.0.0
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     container_name: bits-cs-backend
     ports:
       - "8080:8080"
@@ -33,7 +35,9 @@ services:
         max-file: "3"
 
   frontend:
-    image: ghcr.io/ae-oss/ai-grade-calculator/frontend:v1.0.0
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     container_name: bits-cs-frontend
     ports:
       - "3000:80"

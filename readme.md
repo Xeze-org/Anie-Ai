@@ -70,60 +70,87 @@
 
 </td>
 </tr>
+<tr>
+<td colspan="2">
+
+### 🔑 Bring Your Own API Key (Optional)
+- Use your own Gemini API key for direct access
+- API key stored securely in your browser (localStorage)
+- Choose from multiple Gemini models
+- Green checkmark indicates custom API active
+
+</td>
+</tr>
 </table>
 
 ---
 
 ## 🏗️ Architecture
 
+### Dual Mode Operation
+
+Users can choose between **Server API** (default) or **Custom API** (bring your own key):
+
 ```mermaid
 flowchart TB
     subgraph Client["🖥️ Client (Browser)"]
         UI["⚛️ React App<br/>TypeScript + Vite"]
         IDB[("💾 IndexedDB<br/>Chat History")]
+        LS[("🔑 localStorage<br/>API Key + Settings")]
         UI <--> IDB
+        UI <--> LS
     end
     
-    subgraph Hosting["☁️ Firebase Hosting"]
-        CDN["🌐 Global CDN"]
+    subgraph Mode1["Option 1: Server API"]
+        BE["🐳 Backend Container<br/>Go + Gemini"]
     end
     
-    subgraph Docker["🐳 Docker Containers"]
-        BE["⚡ Go Backend<br/>Alpine Container"]
-        ENV["🔐 Environment<br/>API Keys"]
-        BE --> ENV
+    subgraph Mode2["Option 2: Custom API"]
+        DirectAPI["✨ Gemini API<br/>User's Own Key"]
     end
     
-    subgraph AI["🤖 AI Service"]
-        Gemini["✨ Gemini Flash<br/>1M Token Context"]
-        SP["📋 System Prompt<br/>BITS Curriculum Data"]
-        Gemini --> SP
-    end
-    
-    CDN --> UI
-    UI -->|"HTTPS POST"| BE
-    BE -->|"Generate"| Gemini
-    Gemini -->|"Response"| BE
-    BE -->|"JSON"| UI
+    UI -->|"Default"| BE
+    UI -.->|"BYOK Mode"| DirectAPI
 ```
 
-### Data Flow
+### Data Flow (Server Mode)
 
 ```mermaid
 sequenceDiagram
     participant U as 👤 User
     participant F as ⚛️ Frontend
     participant DB as 💾 IndexedDB
-    participant B as 🐳 Backend Container
+    participant B as 🐳 Backend
     participant G as ✨ Gemini AI
     
     U->>F: Send Message
     F->>DB: Load Chat History
     DB-->>F: Previous Messages
-    F->>B: POST /api/chat<br/>{history: [...]}
-    B->>G: Generate with<br/>System Prompt
+    F->>B: POST /api/chat
+    B->>G: Generate Response
     G-->>B: AI Response
-    B-->>F: {response: "..."}
+    B-->>F: JSON Response
+    F->>DB: Save Message
+    F-->>U: Display Response
+```
+
+### Data Flow (Custom API Mode)
+
+```mermaid
+sequenceDiagram
+    participant U as 👤 User
+    participant F as ⚛️ Frontend
+    participant LS as 🔑 localStorage
+    participant DB as 💾 IndexedDB
+    participant G as ✨ Gemini API
+    
+    U->>F: Send Message
+    F->>LS: Get API Key
+    LS-->>F: User's API Key
+    F->>DB: Load Chat History
+    DB-->>F: Previous Messages
+    F->>G: Direct API Call
+    G-->>F: AI Response
     F->>DB: Save Message
     F-->>U: Display Response
 ```
@@ -137,6 +164,11 @@ erDiagram
         string role "user | assistant"
         string content "Message text"
         datetime timestamp "Created at"
+    }
+    LOCALSTORAGE {
+        boolean useCustomApi "Enable custom API"
+        string apiKey "User's Gemini key"
+        string model "Selected model"
     }
 ```
 
