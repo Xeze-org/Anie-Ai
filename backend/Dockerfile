@@ -23,7 +23,7 @@ COPY internal/ ./internal/
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o server .
 
 # Runtime stage
-FROM alpine:3.21
+FROM alpine:3.23
 
 # Install ca-certificates for HTTPS requests to Gemini API
 RUN apk --no-cache add ca-certificates
