@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Mail, Github, Sparkles, ArrowRight, Brain, Zap } from 'lucide-react'
+import { Mail, Github, Sparkles, ArrowRight, Brain, Zap, Settings } from 'lucide-react'
 import './Home.css'
 
 export function Home() {
@@ -19,13 +19,13 @@ export function Home() {
           <Sparkles size={14} />
           <span>AstralElite</span>
         </div>
-        
+
         <h1 className="hero-title">
           <span className="gradient-text">Computer Science</span>
           <br />
           Open Source Innovative Project
         </h1>
-        
+
         <p className="hero-subtitle">
           Building innovative open source projects. Collaborate, contribute, and create together.
         </p>
@@ -34,6 +34,10 @@ export function Home() {
           <Link to="/chat" className="btn btn-primary">
             <Zap size={20} />
             Calculate Grades
+          </Link>
+          <Link to="/settings" className="btn btn-secondary">
+            <Settings size={20} />
+            Settings
           </Link>
         </div>
 

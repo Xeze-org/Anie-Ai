@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { Send, User, Bot, Loader2, Trash2, ArrowLeft } from 'lucide-react'
+import { Send, User, Bot, Loader2, Trash2, ArrowLeft, Settings, CheckCircle } from 'lucide-react'
 import { MessageContent } from '../components/MessageContent'
 import { type ChatMessage, getAllMessages, addMessage, clearAllMessages } from '../lib/db'
+import { getSettings, type AppSettings } from '../lib/settings'
+import { sendMessageToGemini } from '../lib/gemini'
 import './Chat.css'
 
 export function Chat() {
@@ -10,14 +12,16 @@ export function Chat() {
   const [input, setInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
+  const [settings, setSettings] = useState<AppSettings | null>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  // Load messages from IndexedDB on mount
+  // Load messages from IndexedDB and settings on mount
   useEffect(() => {
     const loadFromDB = async () => {
       const storedMessages = await getAllMessages()
       setMessages(storedMessages)
+      setSettings(getSettings())
       setIsInitialized(true)
     }
     loadFromDB()
@@ -62,34 +66,44 @@ export function Chat() {
     setIsLoading(true)
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL
-      
-      // Build conversation history for backend
+      // Build conversation history
       const conversationHistory = [...messages, userMessage].map(m => ({
         role: m.role,
         content: m.content
       }))
 
-      // Call Go Cloud Function (API key is stored securely in function secrets)
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          history: conversationHistory
+      let aiResponse: string
+
+      // Check if using custom API
+      if (settings?.useCustomApi && settings.apiKey) {
+        // Use direct Gemini API
+        aiResponse = await sendMessageToGemini(
+          settings.apiKey,
+          settings.model,
+          conversationHistory
+        )
+      } else {
+        // Use backend API
+        const apiUrl = import.meta.env.VITE_API_URL
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            history: conversationHistory
+          })
         })
-      })
 
-      const data = await response.json()
-      console.log('API Response:', response.status, data)
+        const data = await response.json()
+        console.log('API Response:', response.status, data)
 
-      if (!response.ok) {
-        throw new Error(data.error || `API error (${response.status})`)
+        if (!response.ok) {
+          throw new Error(data.error || `API error (${response.status})`)
+        }
+
+        aiResponse = data.response || data.message || JSON.stringify(data)
       }
-      
-      // Extract response from Cloud Function format
-      const aiResponse = data.response || data.message || JSON.stringify(data)
 
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
@@ -155,6 +169,16 @@ export function Chat() {
         <ArrowLeft size={18} />
       </Link>
 
+      {/* Floating settings button with green indicator if custom API active */}
+      <Link
+        to="/settings"
+        className={`floating-settings-btn ${settings?.useCustomApi && settings?.apiKey ? 'custom-api-active' : ''}`}
+        title={settings?.useCustomApi && settings?.apiKey ? '✓ API Configured' : 'Using Server API'}
+      >
+        <Settings size={18} />
+        {settings?.useCustomApi && settings?.apiKey && <CheckCircle size={12} className="api-check-icon" />}
+      </Link>
+
       {/* Messages area */}
       <main className="messages-container">
         <div className="messages-wrapper">
@@ -180,8 +204,8 @@ export function Chat() {
           ) : (
             <div className="messages-list">
               {messages.map((message, index) => (
-                <div 
-                  key={message.id} 
+                <div
+                  key={message.id}
                   className={`message ${message.role}`}
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
@@ -198,9 +222,9 @@ export function Chat() {
                         {message.role === 'user' ? 'You' : 'Anie'}
                       </span>
                       <span className="message-time">
-                        {message.timestamp.toLocaleTimeString([], { 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
+                        {message.timestamp.toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit'
                         })}
                       </span>
                     </div>
@@ -234,7 +258,7 @@ export function Chat() {
       <footer className="input-container">
         <div className="input-wrapper">
           {messages.length > 0 && (
-            <button 
+            <button
               className="clear-btn"
               onClick={clearChat}
               title="Clear chat history"
@@ -251,7 +275,7 @@ export function Chat() {
             rows={1}
             disabled={isLoading}
           />
-          <button 
+          <button
             className="send-btn"
             onClick={sendMessage}
             disabled={!input.trim() || isLoading}

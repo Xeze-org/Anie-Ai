@@ -50,3 +50,10 @@ cd backend
 **Function URL:** `https://us-central1-astralelite.cloudfunctions.net/Chat`
 
 
+```bash
+ghcr.io/ae-oss/ai-grade-calculator/frontend:v1.1.0
+```
+
+```bash
+ghcr.io/ae-oss/ai-grade-calculator/backend:v1.1.0
+```
