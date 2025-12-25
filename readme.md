@@ -244,15 +244,6 @@ The system contains complete curriculum data for:
 
 We'd love your help! Check out our [Contributing Guide](CONTRIBUTING.md) to get started.
 
-**Quick Start:**
-
-```bash
-# Clone & run frontend
-git clone https://github.com/AE-OSS/bits-cs.git
-cd bits-cs/frontend
-npm install && npm run dev
-```
-
 ---
 
 ## 📝 License
