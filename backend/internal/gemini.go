@@ -1,8 +1,9 @@
-package backend
+package internal
 
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/option"
@@ -46,8 +47,12 @@ func NewGeminiService(ctx context.Context, apiKey string) (*GeminiService, error
 		return nil, fmt.Errorf("failed to create client: %w", err)
 	}
 
-	// Gemini 2.0 Flash - using correct model path format
-	model := client.GenerativeModel("gemini-flash-latest")
+	// Get model name from environment variable (required)
+	modelName := os.Getenv("GEMINI_MODEL")
+	if modelName == "" {
+		return nil, fmt.Errorf("GEMINI_MODEL environment variable is required")
+	}
+	model := client.GenerativeModel(modelName)
 
 	// Configure for long instructions handling
 	model.SetMaxOutputTokens(8192)

@@ -14,13 +14,13 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy source code
-COPY gemini.go handlers.go instructions.go ./
-COPY cmd/main.go ./cmd/
+COPY main.go ./
+COPY internal/ ./internal/
 
-# Build the application from cmd/main.go
+# Build the application
 # CGO_ENABLED=0 creates a static binary
 # -ldflags="-s -w" strips debug info for smaller binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o server ./cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o server .
 
 # Runtime stage
 FROM alpine:3.21

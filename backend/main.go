@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/bits-cs/backend"
+	"github.com/bits-cs/backend/internal"
 )
 
 func main() {
@@ -19,14 +19,14 @@ func main() {
 	}
 
 	// Initialize Gemini service
-	geminiService, err := backend.NewGeminiService(ctx, apiKey)
+	geminiService, err := internal.NewGeminiService(ctx, apiKey)
 	if err != nil {
 		log.Fatalf("Failed to create Gemini service: %v", err)
 	}
 	defer geminiService.Close()
 
 	// Create handlers
-	handlers := backend.NewHandlers(geminiService)
+	handlers := internal.NewHandlers(geminiService)
 
 	// Setup routes with CORS
 	http.HandleFunc("/api/chat", enableCORS(handlers.HandleChat))

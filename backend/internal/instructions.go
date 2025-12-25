@@ -1,4 +1,4 @@
-package backend
+package internal
 
 // SystemInstructions contains the full system prompt for Anie - BITS CS Academic Advisor
 const SystemInstructions = `# Identity & Persona
