@@ -3,7 +3,7 @@ module github.com/bits-cs/backend
 go 1.24.0
 
 require (
-	github.com/google/generative-ai-go v0.19.0
+	github.com/google/generative-ai-go v0.20.1
 	google.golang.org/api v0.209.0
 )
 
