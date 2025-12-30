@@ -19,3 +19,6 @@ Thumbs.db
 *.log
 npm-debug.log*
 
+# Firebase config (contains API keys)
+src/lib/firebase.ts
+
