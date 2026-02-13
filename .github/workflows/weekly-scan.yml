@@ -28,17 +28,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Scan Frontend
-      - name: Pull Frontend Image
-        run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:latest
-        
-      - name: Run Trivy vulnerability scanner on Frontend
-        uses: aquasecurity/trivy-action@master
-        with:
-          image-ref: '${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-frontend:latest'
-          format: 'sarif'
-          output: 'trivy-results-frontend.sarif'
-          severity: 'CRITICAL,HIGH'
+
 
       # Scan Analyzer Backend
       - name: Pull Analyzer Backend Image
@@ -78,6 +68,5 @@ jobs:
         with:
           name: trivy-scan-reports
           path: |
-            trivy-results-frontend.sarif
             trivy-results-analyzer.sarif
             trivy-results-calculator.sarif

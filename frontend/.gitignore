@@ -10,6 +10,7 @@ dist
 .vscode
 *.swp
 *.swo
+.env
 
 # OS
 .DS_Store
@@ -22,3 +23,8 @@ npm-debug.log*
 # Firebase config (contains API keys)
 src/lib/firebase.ts
 
+
+# Environment variables
+*.env
+.env.local
+.env.*.local
