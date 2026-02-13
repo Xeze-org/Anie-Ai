@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Mail, Github, Sparkles, ArrowRight, Brain, Zap, Settings } from 'lucide-react'
+import { Mail, Github, Sparkles, ArrowRight, Zap, FileText } from 'lucide-react'
 import './Home.css'
 
 export function Home() {
@@ -17,7 +17,7 @@ export function Home() {
       <header className="hero">
         <div className="hero-badge">
           <Sparkles size={14} />
-          <span>AstralElite</span>
+          <span>Xeze</span>
         </div>
 
         <h1 className="hero-title">
@@ -35,9 +35,9 @@ export function Home() {
             <Zap size={20} />
             Calculate Grades
           </Link>
-          <Link to="/settings" className="btn btn-secondary">
-            <Settings size={20} />
-            Settings
+          <Link to="/job-analyzer" className="btn btn-secondary">
+            <FileText size={20} />
+            Analyze Job Document
           </Link>
         </div>
 
@@ -52,27 +52,7 @@ export function Home() {
         </div>
 
         <div className="projects-grid">
-          <div className="project-card project-anie">
-            <div className="project-glow" />
-            <div className="project-content">
-              <div className="project-icon-wrapper">
-                <Brain size={32} />
-              </div>
-              <div className="project-info">
-                <h3>Meet Anie</h3>
-                <p>Your AI-powered academic advisor. Get personalized guidance on courses, grades, and career paths.</p>
-                <div className="project-tags">
-                  <span className="tag">AI Assistant</span>
-                  <span className="tag">BITS Curriculum</span>
-                  <span className="tag">24/7 Available</span>
-                </div>
-              </div>
-              <Link to="/chat" className="project-cta">
-                <span>Talk to Anie</span>
-                <ArrowRight size={20} />
-              </Link>
-            </div>
-          </div>
+
 
           <div className="project-card project-calculator">
             <div className="project-glow" />
@@ -95,6 +75,28 @@ export function Home() {
               </Link>
             </div>
           </div>
+
+          <div className="project-card project-analyzer">
+            <div className="project-glow" />
+            <div className="project-content">
+              <div className="project-icon-wrapper">
+                <FileText size={32} />
+              </div>
+              <div className="project-info">
+                <h3>Job Document Analyzer</h3>
+                <p>Analyze job descriptions and contracts. Detect scams, risky clauses, and optimize resumes.</p>
+                <div className="project-tags">
+                  <span className="tag">Scam Detection</span>
+                  <span className="tag">Contract Analysis</span>
+                  <span className="tag">Resume Check</span>
+                </div>
+              </div>
+              <Link to="/job-analyzer" className="project-cta">
+                <span>Analyze Docs</span>
+                <ArrowRight size={20} />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -104,24 +106,24 @@ export function Home() {
         <p className="collaborate-subtitle">Join our innovation ecosystem</p>
 
         <div className="collaborate-cards">
-          <a href="https://git.astralelite.org" target="_blank" rel="noopener noreferrer" className="collaborate-card">
+          <a href="https://github.com/Xeze-org" target="_blank" rel="noopener noreferrer" className="collaborate-card">
             <div className="collaborate-icon github">
               <Github size={32} />
             </div>
             <div className="collaborate-info">
-              <h3>Git.AstralElite.org</h3>
-              <p>Self-hosted GitHub • Open Source</p>
+              <h3>Github - Xeze-org</h3>
+              <p>Open Source</p>
             </div>
             <ArrowRight size={20} className="collaborate-arrow" />
           </a>
 
-          <a href="mailto:hi@astralelite.org" className="collaborate-card">
+          <a href="mailto:admin@xeze.org" className="collaborate-card">
             <div className="collaborate-icon email">
               <Mail size={32} />
             </div>
             <div className="collaborate-info">
               <h3>Direct Contact</h3>
-              <p>hi@astralelite.org</p>
+              <p>admin@xeze.org</p>
             </div>
             <ArrowRight size={20} className="collaborate-arrow" />
           </a>
@@ -131,7 +133,7 @@ export function Home() {
       {/* Footer */}
       <footer className="home-footer">
         <p className="footer-copy">
-          © 2025 AstralElite
+          © 2025 Xeze • Owner: <a href="https://github.com/root404onion" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>root404onion</a>
         </p>
       </footer>
     </div>

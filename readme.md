@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🎓 BITS CS - Anie
+# 🎓 Anie - Grade calculator & Job Docs Analyzer
 
-### Your AI-Powered Academic Advisor for BITS Pilani Computer Science
+### Your AI-Powered Academic Advisor & Career Assistant
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Go](https://img.shields.io/badge/Go-1.24-00ADD8?logo=go&logoColor=white)](https://golang.org/)
@@ -10,15 +10,15 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Docker](https://img.shields.io/badge/Docker-Container-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![Gemini](https://img.shields.io/badge/Gemini-Flash-8E75B2?logo=google&logoColor=white)](https://ai.google.dev/)
-[![Security Scan](https://github.com/AE-OSS/ai-grade-calculator/actions/workflows/security.yml/badge.svg)](https://github.com/AE-OSS/ai-grade-calculator/actions/workflows/security.yml)
+[![Security Scan](https://github.com/Xeze-org/Anie-Ai/actions/workflows/security.yml/badge.svg)](https://github.com/Xeze-org/Anie-Ai/actions/workflows/security.yml)
 
 <br/>
 
 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/People/Woman%20Student.png" alt="Student" width="150"/>
 
-**Calculate grades • Plan courses • Get career guidance**
+**Calculate grades • Plan courses • Analyze Job Contracts • Resume Review**
 
-[Use](https://cs.astralelite.org/chat) · [CONTRIBUTE](./CONTRIBUTING.md) ·  [Report Bug](../../issues) · [Request Feature](../../issues) · [Contact](./SUPPORT.md)
+[cs.xeze.org](https://cs.xeze.org) · [CONTRIBUTE](./CONTRIBUTING.md) · [Discussions](../../discussions) · [Contact](./SUPPORT.md)
 
 
 ---
@@ -71,7 +71,15 @@
 </td>
 </tr>
 <tr>
-<td colspan="2">
+<td width="50%">
+
+### 🔍 Job Document Analyzer
+- **Contract Scanner**: Detect scams and risky clauses in employment agreements. Risk scoring included.
+- **Resume Optimizer**: AI-powered resume review for ATS optimization.
+- **Dedicated Backend**: Secure analysis pipeline.
+
+</td>
+<td width="50%">
 
 ### 🔑 Bring Your Own API Key (Optional)
 - Use your own Gemini API key for direct access
@@ -103,13 +111,15 @@ flowchart TB
     
     subgraph Mode1["Option 1: Server API"]
         BE["🐳 Backend Container<br/>Go + Gemini"]
+        JA["🕵️ Job Analyzer API<br/>Dedicated Service"]
     end
     
     subgraph Mode2["Option 2: Custom API"]
         DirectAPI["✨ Gemini API<br/>User's Own Key"]
     end
     
-    UI -->|"Default"| BE
+    UI -->|"Chat & Grade"| BE
+    UI -->|"Job Analysis"| JA
     UI -.->|"BYOK Mode"| DirectAPI
 ```
 
@@ -240,6 +250,15 @@ The system contains complete curriculum data for:
 
 ---
 
+## 📚 Documentation & Guides
+
+For detailed setup and administration instructions, check our Wiki:
+
+- [🚀 Deployment Guide](https://github.com/Xeze-org/Anie-Ai/wiki/Deployment-Guide): Step-by-step instructions for deploying to Docker, Firebase, and Cloud Run.
+- [🛠️ Admin Guide](https://github.com/Xeze-org/Anie-Ai/wiki/Admin-guide): Managing secrets, environment variables, and backend configuration.
+
+---
+
 ## 🌸 Contributing
 
 We'd love your help! Check out our [Contributing Guide](CONTRIBUTING.md) to get started.
@@ -264,7 +283,7 @@ This means you can freely use, modify, and distribute this software, but any der
 
 <div align="center">
 
-**Made with ❤️ for BITS Students**
+**Made with ❤️ for BITS Students by Xeze**
 
 <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Hand%20gestures/Waving%20Hand.png" alt="Wave" width="30"/> 
 

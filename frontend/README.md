@@ -7,15 +7,15 @@ Modern React chat interface with AI-powered grade calculations and academic advi
 ### Using Pre-built Image
 
 ```bash
-docker pull ghcr.io/ae-oss/ai-grade-calculator/frontend:v1.1.0
-docker run -p 3000:80 ghcr.io/ae-oss/ai-grade-calculator/frontend:v1.1.0
+docker pull ghcr.io/xeze-org/anie-ai/frontend:v1.1.0
+docker run -p 3000:80 ghcr.io/xeze-org/anie-ai/frontend:v1.1.0
 ```
 
 ### Building from Source
 
 ```bash
-docker build -t bits-frontend .
-docker run -p 3000:80 bits-frontend
+docker build -t xeze-frontend .
+docker run -p 3000:80 xeze-frontend
 ```
 
 ## 🔧 Local Development

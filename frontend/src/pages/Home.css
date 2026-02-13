@@ -51,17 +51,30 @@
 .grid-overlay {
   position: absolute;
   inset: 0;
-  background-image: 
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
 @keyframes float {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(30px, -30px) scale(1.05); }
-  50% { transform: translate(-20px, 20px) scale(0.95); }
-  75% { transform: translate(20px, 30px) scale(1.02); }
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  25% {
+    transform: translate(30px, -30px) scale(1.05);
+  }
+
+  50% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+
+  75% {
+    transform: translate(20px, 30px) scale(1.02);
+  }
 }
 
 /* Hero Section */
@@ -342,6 +355,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -353,6 +367,7 @@
     opacity: 0;
     transform: translateY(-20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -429,6 +444,10 @@
   background: #f59e0b;
 }
 
+.project-analyzer .project-glow {
+  background: #22d3ee;
+}
+
 .project-card:hover .project-glow {
   opacity: 0.5;
 }
@@ -461,6 +480,12 @@
   background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
   color: white;
   box-shadow: 0 8px 32px rgba(245, 158, 11, 0.4);
+}
+
+.project-analyzer .project-icon-wrapper {
+  background: linear-gradient(135deg, #22d3ee 0%, #0ea5e9 100%);
+  color: white;
+  box-shadow: 0 8px 32px rgba(34, 211, 238, 0.4);
 }
 
 .project-info h3 {
@@ -680,4 +705,3 @@
     padding: 20px;
   }
 }
-

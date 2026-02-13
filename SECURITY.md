@@ -63,7 +63,7 @@ This project uses containerized microservices deployed via Docker:
 If you discover a security vulnerability, please:
 
 1. **Do NOT** open a public issue
-2. Email: [hi@astralelite.org](mailto:hi@astralelite.org)
+2. Email: [admin@xeze.org](mailto:admin@xeze.org)
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce
@@ -85,8 +85,8 @@ If you discover a security vulnerability, please:
 
 ```bash
 # Scan container images with Docker Scout
-docker scout cves ghcr.io/ae-oss/ai-grade-calculator/backend:latest
-docker scout cves ghcr.io/ae-oss/ai-grade-calculator/frontend:latest
+docker scout cves ghcr.io/xeze-org/anie-ai/backend:latest
+docker scout cves ghcr.io/xeze-org/anie-ai/frontend:latest
 
 # Run TruffleHog locally
 trufflehog git file://. --only-verified

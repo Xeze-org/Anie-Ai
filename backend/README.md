@@ -7,15 +7,15 @@ Go backend service using **Gemini Flash** - optimized for long context instructi
 ### Using Pre-built Image
 
 ```bash
-docker pull ghcr.io/ae-oss/ai-grade-calculator/backend:v1.1.0
-docker run -p 8080:8080 -e GEMINI_API_KEY=your_key -e GEMINI_MODEL=gemini-2.5-flash ghcr.io/ae-oss/ai-grade-calculator/backend:v1.1.0
+docker pull ghcr.io/xeze-org/anie-ai/backend:v1.1.0
+docker run -p 8080:8080 -e GEMINI_API_KEY=your_key -e GEMINI_MODEL=gemini-2.5-flash ghcr.io/xeze-org/anie-ai/backend:v1.1.0
 ```
 
 ### Building from Source
 
 ```bash
-docker build -t bits-backend .
-docker run -p 8080:8080 -e GEMINI_API_KEY=your_key -e GEMINI_MODEL=gemini-2.5-flash bits-backend
+docker build -t xeze-backend .
+docker run -p 8080:8080 -e GEMINI_API_KEY=your_key -e GEMINI_MODEL=gemini-2.5-flash xeze-backend
 ```
 
 ## 🔧 Local Development

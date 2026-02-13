@@ -25,3 +25,6 @@ npm-debug.log*
 # Debug
 .firebase-debug.log
 
+# Inactive source
+job document analyzer/
+

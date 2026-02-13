@@ -15,8 +15,8 @@ Let’s get this running real quick 🚀
 
 🧠 Clone the repo
 ```bash
-git clone https://github.com/AE-OSS/ai-grade-calculator.git
-cd ai-grade-calculator
+git clone https://github.com/Xeze-org/Anie-Ai.git
+cd Anie-Ai
 ```
 🎨 Start the frontend
 ```bash
