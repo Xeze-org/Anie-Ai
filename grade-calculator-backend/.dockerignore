@@ -1,0 +1,33 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Build artifacts
+*.exe
+server
+
+# Documentation
+*.md
+!README.md
+
+# Deployment scripts
+deploy.sh
+deploy.ps1
+
+# Environment files (will be passed via docker-compose)
+.env
+.env.local
+.env.production
+
+# Google Cloud
+.gcloudignore
+
+# Misc
+*.log
+*.tmp

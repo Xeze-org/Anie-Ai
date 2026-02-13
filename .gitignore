@@ -8,7 +8,6 @@ frontend/dist
 
 # Firebase
 .firebase
-
 # Editor
 .vscode
 *.swp
