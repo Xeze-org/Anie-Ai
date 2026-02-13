@@ -1,7 +1,14 @@
 {
-  "name": "ai-chat-interface",
-  "private": true,
+  "name": "@xeze-org/anie-ai-frontend",
   "version": "1.0.0",
+  "description": "Frontend for Anie AI",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Xeze-org/Anie-Ai.git"
+  },
   "type": "module",
   "scripts": {
     "dev": "vite",
